@@ -1,0 +1,30 @@
+Spielbrett
+	Orte
+	Routen verbinden Orte
+	Tore
+
+Marke
+	Leben
+	Geistige Gesundheit
+	Fokus
+	Verbesserung
+	Tickets für Marken
+
+Spielfiguren
+	Eigenschaften
+		Leben
+		Geistige Gesundheit
+		Characterwerte
+			Wissen
+			Einfluss
+			Wahrnehmung
+			Stärke
+			Willenskraft
+
+Karten
+	Zauber
+	Artefakte
+	Zustände
+	Begegnunskarten
+
+Monster
