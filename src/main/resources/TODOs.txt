@@ -28,3 +28,9 @@ Karten
 	Begegnunskarten
 
 Monster
+
+Spielablauf:
+    0. Anzahl an Mitspieler festlegen
+    1. Char wählen (Eigenschaften, Ausrustung, Startpunkt)
+    2. Ermittlungsleiter wählen (ist immer als erster dran)
+    3. Runde beginnt
