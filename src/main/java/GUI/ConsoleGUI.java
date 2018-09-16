@@ -6,7 +6,7 @@ import Game.Game;
 
 import java.util.Scanner;
 
-public class ConsoleGUI {
+public class ConsoleGUI extends GUI {
 
     private static ConsoleGUI instance;
 

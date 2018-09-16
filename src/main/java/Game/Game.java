@@ -2,10 +2,13 @@ package Game;
 
 import Characters.Character;
 import GUI.ConsoleGUI;
+import GUI.GUI;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+
+import GUI.JavaFXGUI;
 
 public class Game {
     int anzahlSpieler;
@@ -14,8 +17,10 @@ public class Game {
 
     private static Game instance;
 
-    private Game(){
+    private static GUI gui;
 
+    private Game(){
+        gui = JavaFXGUI.getInstance();
     }
 
     public static synchronized Game getInstance() {
@@ -26,14 +31,14 @@ public class Game {
     }
 
     public void start () {
-        ConsoleGUI.getInstance().willkommen();
-        anzahlSpieler = ConsoleGUI.getInstance().erfrageSpieleranzahl();
+        gui.willkommen();
+        anzahlSpieler = gui.erfrageSpieleranzahl();
         for (int i = 1; i <= anzahlSpieler; i++) {
-            charaktere.add(ConsoleGUI.getInstance().charakterabfrage(i));
+            charaktere.add(gui.charakterabfrage(i));
         }
 
         for (Character element:charaktere) {
-            ConsoleGUI.getInstance().charakterinfo(element);
+            gui.charakterinfo(element);
         }
 
         gameloop();
@@ -56,7 +61,7 @@ public class Game {
             ermittlungsleiter = null;
         }
 
-        ermittlungsleiter = ConsoleGUI.getInstance().ermittlungsleiterabfrage(ermittlungsleiter);
+        ermittlungsleiter = gui.ermittlungsleiterabfrage(ermittlungsleiter);
         charaktere.stream().forEach(c -> c.setIstErmittlungsleiter(false));
         ermittlungsleiter.setIstErmittlungsleiter(true);
     }
