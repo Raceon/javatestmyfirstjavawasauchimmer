@@ -8,11 +8,13 @@ public class Character {
     String geschichte;
 
     boolean lebendig;
+    boolean istErmittlungsleiter;
 
     int leben;
-    int geist;
 
+    int geist;
     int wissen;
+
     int einfluss;
     int wahrnehmung;
     int staerke;
@@ -20,9 +22,16 @@ public class Character {
 
 
     //TODO Startort, Startgegenstände, Aktion, passive
-
     public String toString () {
         return "Name: " + this.name + "\nLeben: " + this.leben + "\nGeist: " + this.geist;
+    }
+
+    public boolean isIstErmittlungsleiter() {
+        return istErmittlungsleiter;
+    }
+
+    public void setIstErmittlungsleiter(boolean istErmittlungsleiter) {
+        this.istErmittlungsleiter = istErmittlungsleiter;
     }
 
     public String getName() {

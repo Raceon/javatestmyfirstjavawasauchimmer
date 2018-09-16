@@ -8,13 +8,13 @@ public enum CharacterNames {
     MANDY_THOMPSON ("Mandy Thompson"),
     JOE_DIAMOND ("Joe Diamond")*/
 
-    private Class name;
+    private Class classobject;
 
     CharacterNames (Class name) {
-        this.name = name;
+        this.classobject = name;
     }
 
-    public Class getName () {
-        return this.name;
+    public Class getClassobject() {
+        return this.classobject;
     }
 }

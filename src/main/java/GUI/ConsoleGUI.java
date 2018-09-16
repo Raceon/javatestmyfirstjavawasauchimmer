@@ -2,6 +2,7 @@ package GUI;
 
 import Characters.Character;
 import Characters.CharacterNames;
+import Game.Game;
 
 import java.util.Scanner;
 
@@ -35,13 +36,28 @@ public class ConsoleGUI {
         try {
             Scanner scanner = new Scanner(System.in);
             String eingabe = scanner.nextLine();
-            return (Character) CharacterNames.valueOf(eingabe.toUpperCase().replace(" ", "_")).getName().newInstance();
+            return (Character) CharacterNames.valueOf(eingabe.toUpperCase().replace(" ", "_")).getClassobject().newInstance();
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public Character ermittlungsleiterabfrage (Character c) {
+
+        Scanner scanner = new Scanner(System.in);
+
+        if (c != null) {
+            System.out.println(c.getName() + " ist derzeit Ermittlungsleiter. Soll ein neuer gewählt werden?");
+            String eingabe = scanner.nextLine();
+            if (eingabe.toUpperCase().equals("NEIN")) return c;
+        }
+        System.out.println("Wer soll der neue Ermittlungleiter werden?");
+        String eingabe = scanner.nextLine();
+        return Game.getInstance().getCharaktere().stream().filter(character -> character.getName().toUpperCase().equals(eingabe.toUpperCase())).findFirst().get();
+
     }
 
     public void charakterinfo (Character c) {
