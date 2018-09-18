@@ -3,22 +3,14 @@ package GUI;
 import Characters.Character;
 import Characters.CharacterNames;
 import Game.Game;
+import javafx.scene.control.Label;
 
 import java.util.Scanner;
 
-public class ConsoleGUI extends GUI {
+public class ConsoleGUI implements GUI {
 
-    private static ConsoleGUI instance;
 
-    private ConsoleGUI () {}
-
-    public static synchronized ConsoleGUI getInstance() {
-        if (instance == null) {
-            instance = new ConsoleGUI();
-        }
-
-        return instance;
-    }
+    public ConsoleGUI () {}
 
     public int erfrageSpieleranzahl () {
         System.out.println("Wieviele Spieler spielen?");
@@ -62,5 +54,10 @@ public class ConsoleGUI extends GUI {
 
     public void charakterinfo (Character c) {
         System.out.println(c.toString());
+    }
+
+    @Override
+    public boolean isInitialized() {
+        return true;
     }
 }

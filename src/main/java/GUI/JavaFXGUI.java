@@ -2,53 +2,63 @@ package GUI;
 
 import Characters.Character;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import static javafx.application.Application.launch;
 
-public class JavaFXGUI extends GUI {
+public class JavaFXGUI implements GUI {
 
+    public static boolean initialized;
     public static Controller controller;
+    public static Object lock = new Object();
+    public static Object stateObject;
 
-    private static JavaFXGUI instance;
-
-    private JavaFXGUI () {
-
+    public JavaFXGUI () {
         Thread thread = new Thread(){
             public void run(){
                 launch(JavaFXApplication.class);
             }
         };
-
         thread.start();
     }
-
-    public static synchronized JavaFXGUI getInstance() {
-        if (instance == null) {
-            instance = new JavaFXGUI();
-        }
-
-        return instance;
-    }
-
 
 
     @Override
     public int erfrageSpieleranzahl() {
-        return 0;
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                controller.spielerAnzahlText();
+            }
+        });
+
+        return getAnzahl();
+    }
+
+    private int getAnzahl() {
+        synchronized (lock) {
+            try {
+                lock.wait();
+                System.out.println("HI");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return (int) stateObject;
     }
 
     @Override
     public void willkommen() {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                controller.willkommen();
+            }
+        });
 
-
-        try {
-            Thread.currentThread().sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        controller.label1.setText("Herzlich Willkommen bei Eldritch Horror!");
     }
 
     @Override
@@ -64,5 +74,10 @@ public class JavaFXGUI extends GUI {
     @Override
     public void charakterinfo(Character c) {
 
+    }
+
+    @Override
+    public boolean isInitialized() {
+        return this.initialized;
     }
 }
