@@ -23,7 +23,7 @@ public class Character {
 
     //TODO Startort, Startgegenstände, Aktion, passive
     public String toString () {
-        return "Name: " + this.name + "\nLeben: " + this.leben + "\nGeist: " + this.geist;
+        return this.name;
     }
 
     public boolean isIstErmittlungsleiter() {

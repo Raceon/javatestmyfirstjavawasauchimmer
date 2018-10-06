@@ -9,9 +9,10 @@ import javafx.stage.Stage;
 public class JavaFXApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent rootWindow = FXMLLoader.load(getClass().getClassLoader().getResource("root.fxml"));
+        Parent rootWindow = FXMLLoader.load(getClass().getClassLoader().getResource("welcome.fxml"));
         primaryStage.setTitle("Eldritch Horror");
-        primaryStage.setScene(new Scene(rootWindow, 300,300));
+        primaryStage.setScene(new Scene(rootWindow, 1200,800));
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 }

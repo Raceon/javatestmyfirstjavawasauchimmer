@@ -12,43 +12,44 @@ public class ConsoleGUI implements GUI {
 
     public ConsoleGUI () {}
 
-    public int erfrageSpieleranzahl () {
+    public void erfrageSpieleranzahl () {
         System.out.println("Wieviele Spieler spielen?");
         Scanner scanner = new Scanner(System.in);
         String eingabe = scanner.nextLine();
-        return Integer.valueOf(eingabe);
+        Game.getInstance().gameStateObject.setSpieleranzahl(Integer.valueOf(eingabe));
     }
 
     public void willkommen () {
         System.out.println("Herzlich Willkommen bei Eldritch Horror!");
     }
 
-    public Character charakterabfrage (int spieler) {
+    public void charakterabfrage (int spieler) {
         System.out.println("Spieler " + spieler + " welchen Ermittler möchtest du spielen?");
         try {
             Scanner scanner = new Scanner(System.in);
             String eingabe = scanner.nextLine();
-            return (Character) CharacterNames.valueOf(eingabe.toUpperCase().replace(" ", "_")).getClassobject().newInstance();
+            Game.gameStateObject.addCharacter((Character) CharacterNames.valueOf(eingabe.toUpperCase().replace(" ", "_")).getClassobject().newInstance());
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-        return null;
     }
 
-    public Character ermittlungsleiterabfrage (Character c) {
+    public void ermittlungsleiterabfrage (Character c) {
 
         Scanner scanner = new Scanner(System.in);
 
         if (c != null) {
             System.out.println(c.getName() + " ist derzeit Ermittlungsleiter. Soll ein neuer gewählt werden?");
             String eingabe = scanner.nextLine();
-            if (eingabe.toUpperCase().equals("NEIN")) return c;
+            if (eingabe.toUpperCase().equals("NEIN")) return;
         }
         System.out.println("Wer soll der neue Ermittlungleiter werden?");
         String eingabe = scanner.nextLine();
-        return Game.getInstance().getCharaktere().stream().filter(character -> character.getName().toUpperCase().equals(eingabe.toUpperCase())).findFirst().get();
+
+        Game.getInstance().gameStateObject.getCharaktere().stream().forEach(d -> d.setIstErmittlungsleiter(false));
+        Game.getInstance().gameStateObject.getCharaktere().stream().filter(character -> character.getName().toUpperCase().equals(eingabe.toUpperCase())).findFirst().get().setIstErmittlungsleiter(true);
 
     }
 
@@ -59,5 +60,10 @@ public class ConsoleGUI implements GUI {
     @Override
     public boolean isInitialized() {
         return true;
+    }
+
+    @Override
+    public void gameFensterLaden() {
+
     }
 }

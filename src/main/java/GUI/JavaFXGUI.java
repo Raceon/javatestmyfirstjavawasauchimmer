@@ -7,6 +7,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 import static javafx.application.Application.launch;
 
 public class JavaFXGUI implements GUI {
@@ -27,7 +29,7 @@ public class JavaFXGUI implements GUI {
 
 
     @Override
-    public int erfrageSpieleranzahl() {
+    public void erfrageSpieleranzahl() {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -35,19 +37,7 @@ public class JavaFXGUI implements GUI {
             }
         });
 
-        return getAnzahl();
-    }
-
-    private int getAnzahl() {
-        synchronized (lock) {
-            try {
-                lock.wait();
-                System.out.println("HI");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        return (int) stateObject;
+        syncGUI();
     }
 
     @Override
@@ -59,25 +49,89 @@ public class JavaFXGUI implements GUI {
             }
         });
 
+        syncGUI();
+
     }
 
     @Override
-    public Character charakterabfrage(int spieler) {
-        return null;
+    public void charakterabfrage(int spieler) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    controller.loadNewFXML("menuCharakterabfrage.fxml");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                controller.charakterabfrage(spieler);
+            }
+        });
+        syncGUI();
     }
 
+
+    //meine Arbeit
     @Override
-    public Character ermittlungsleiterabfrage(Character c) {
-        return null;
+    public void ermittlungsleiterabfrage(Character c) {
+
+
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                     controller.ermittlungsleiterabfrage(c);
+                }
+        });
+
+        syncGUI();
     }
 
     @Override
     public void charakterinfo(Character c) {
+        System.out.println(c.toString());
+
+    }
+
+    public void gameFensterLaden() {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    controller.loadNewFXML("gamewindow.fxml");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+    });
+
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                controller.setGameWindow();
+            }
+        });
+
+        syncGUI();
 
     }
 
     @Override
     public boolean isInitialized() {
         return this.initialized;
+    }
+
+    private void syncGUI() {
+        synchronized (lock) {
+            try {
+                lock.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

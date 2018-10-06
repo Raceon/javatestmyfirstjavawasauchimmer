@@ -17,13 +17,11 @@ public class Game {
 
     final static Logger logger = Logger.getLogger(Game.class);
 
-    int anzahlSpieler;
-
-    List<Character> charaktere = new ArrayList<Character>();
-
     private static Game instance;
 
     private static GUI gui;
+
+    public static GameStateObject gameStateObject = new GameStateObject();
 
     private Game(){
     }
@@ -71,14 +69,16 @@ public class Game {
 
     public void start () {
         gui.willkommen();
-        anzahlSpieler = gui.erfrageSpieleranzahl();
-        for (int i = 1; i <= anzahlSpieler; i++) {
-            charaktere.add(gui.charakterabfrage(i));
+        gui.erfrageSpieleranzahl();
+        for (int i = 1; i <= gameStateObject.getSpieleranzahl(); i++) {
+            gui.charakterabfrage(i);
         }
 
-        for (Character element:charaktere) {
+        for (Character element:gameStateObject.getCharaktere()) {
             gui.charakterinfo(element);
         }
+
+        gui.gameFensterLaden();
 
         gameloop();
     }
@@ -87,7 +87,8 @@ public class Game {
 
         do {
             //Aktionsphase
-             ermittlungsleiterStep();
+            ermittlungsleiterStep();
+            aktionStep();
         } while (true);
     }
 
@@ -95,17 +96,15 @@ public class Game {
         Character ermittlungsleiter;
 
         try {
-            ermittlungsleiter = charaktere.stream().filter(c -> c.isIstErmittlungsleiter()).findFirst().get();
+            ermittlungsleiter = gameStateObject.getCharaktere().stream().filter(c -> c.isIstErmittlungsleiter()).findFirst().get();
         } catch (NoSuchElementException exe) {
             ermittlungsleiter = null;
         }
 
-        ermittlungsleiter = gui.ermittlungsleiterabfrage(ermittlungsleiter);
-        charaktere.stream().forEach(c -> c.setIstErmittlungsleiter(false));
-        ermittlungsleiter.setIstErmittlungsleiter(true);
+        gui.ermittlungsleiterabfrage(ermittlungsleiter);
     }
 
-    public List<Character> getCharaktere () {
-            return charaktere;
-        }
+    private void aktionStep() {
+
+    }
 }
